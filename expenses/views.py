@@ -20,7 +20,14 @@ class ExpenseListView(ListView):
 
             category = form.cleaned_data['category']
             if category:
-                queryset = queryset.filter(category=category)
+                queryset = queryset.filter(category__id__in=category.all())
+                if queryset.count() > 5:
+                    self.paginate_by = queryset.count()
+
+            # search by date
+            date = form.cleaned_data['date']
+            if date:
+                queryset = queryset.filter(date=date)
 
             grouping = form.cleaned_data['grouping']
             if grouping:

@@ -12,8 +12,8 @@
 3. Create new branch in format `firstName-lastName`.
 4. TASKS
 
-   1. Allow searching by date range in `expenses.ExpenseList`.
-   2. Allow searching by multiple categories in `expenses.ExpenseList`.
+  + 1. Allow searching by date range in `expenses.ExpenseList`.
+  + 2. Allow searching by multiple categories in `expenses.ExpenseList`.
    3. In `expenses.ExpenseList` add sorting by category and date (ascending and descending)
    4. In `expenses.ExpenseList` add grouping by category name (ascending and descending)
    5. In `expenses.ExpenseList` add total amount spent.
