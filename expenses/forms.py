@@ -5,10 +5,15 @@ from .models import Expense, Category
 
 class ExpenseSearchForm(forms.ModelForm):
     GROPING = ('date',)
+    SORTING_BY = (
+        ('0', ''),
+        ('1', 'Ascending'),
+        ('2', 'Descending'),
+    )
     grouping = forms.ChoiceField(choices=[('', '')] + list(zip(GROPING, GROPING)))
-    #
     category = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Category.objects.all())
-
+    sort_by_date = forms.ChoiceField(choices=SORTING_BY, initial='')
+    sort_by_category = forms.ChoiceField(choices=SORTING_BY, initial='')
 
     class Meta:
         model = Expense
