@@ -4,7 +4,7 @@ from .models import Expense, Category
 
 
 class ExpenseSearchForm(forms.ModelForm):
-    GROPING = ('date',)
+    GROPING = ('date', 'category_ascending', 'category_descending')
     SORTING_BY = (
         ('0', ''),
         ('1', 'Ascending'),
