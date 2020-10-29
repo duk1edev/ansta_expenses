@@ -3,6 +3,7 @@
 {% block content %}
 
 <a href="{% url 'expenses:expense-create' %}">add</a>
+<a href="{% url 'expenses:category-list' %}">view categories</a>
 
 <form method="get" action="">
   {{form.as_p}}

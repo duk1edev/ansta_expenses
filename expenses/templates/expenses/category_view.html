@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for category in categories %}
+    <li>{{ category.name }}</li>
+{% empty %}
+    <li>No category yet.</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

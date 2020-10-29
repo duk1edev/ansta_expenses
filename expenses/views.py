@@ -59,3 +59,15 @@ class ExpenseListView(ListView):
             summary_per_year_month=summary_per_year_month(queryset),
             total_amount=total_amount(),
             **kwargs)
+
+
+class CategoryView(ListView):
+    model = Category
+    paginate_by = 5
+    context_object_name = 'categories'
+    template_name = 'expenses/category_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryView, self).get_context_data(**kwargs)
+
+        return context
