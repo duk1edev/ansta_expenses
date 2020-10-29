@@ -3,6 +3,7 @@ from django.views.generic.list import ListView
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
 from .reports import summary_per_category, summary_per_year_month, total_amount
+from collections import Counter
 
 
 class ExpenseListView(ListView):
@@ -63,11 +64,18 @@ class ExpenseListView(ListView):
 
 class CategoryView(ListView):
     model = Category
-    paginate_by = 5
     context_object_name = 'categories'
     template_name = 'expenses/category_view.html'
 
+    def count_category_items(self):
+        expenses = Expense.objects.all().order_by('category__name')
+        category_names = []
+        for expense in list(expenses):
+            category_names.append(expense.category)
+        count_category = Counter(category_names)
+        return dict(count_category)
+
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)
-
+        context['count_category'] = self.count_category_items()
         return context

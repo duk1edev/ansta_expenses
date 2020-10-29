@@ -2,11 +2,9 @@
 
 {% block content %}
 
-{% for category in categories %}
-    <li>{{ category.name }}</li>
-{% empty %}
-    <li>No category yet.</li>
+{% for category, count in count_category.items %}
+    {{category}} - {{ count }} <br />
 {% endfor %}
-</ul>
+
 
 {% endblock %}
