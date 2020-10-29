@@ -150,6 +150,8 @@
 
 {% include "_pagination.html" %}
 <hr>
+   Total amount = {{total_amount}}
+<hr>
 <table border="1">
   <caption>Summary per category</caption>
   <tr>
@@ -163,5 +165,6 @@
     {% for year_month, total in summary_per_year_month.items %}<td>{{year_month|date:"Y-m"}}: {{total|floatformat:2}}</td>{% endfor %}
   </tr>
 </table>
+
 
 {% endblock %}

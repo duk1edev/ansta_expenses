@@ -2,7 +2,7 @@ from django.views.generic.list import ListView
 
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
-from .reports import summary_per_category, summary_per_year_month
+from .reports import summary_per_category, summary_per_year_month, total_amount
 
 
 class ExpenseListView(ListView):
@@ -14,6 +14,7 @@ class ExpenseListView(ListView):
 
         form = ExpenseSearchForm(self.request.GET)
         if form.is_valid():
+            total_amount()
             name = form.cleaned_data.get('name', '').strip()
             if name:
                 queryset = queryset.filter(name__icontains=name)
@@ -44,19 +45,17 @@ class ExpenseListView(ListView):
             if sort_by_date == '2':
                 queryset = Expense.objects.order_by('-date')
 
-
             # TODO: ADD sorting by name of category
             sort_by_category = form.cleaned_data['sort_by_category']
             if sort_by_category == '1':
-                queryset  = Expense.objects.order_by('category__name')
+                queryset = Expense.objects.order_by('category__name')
             if sort_by_category == '2':
                 queryset = Expense.objects.order_by('-category__name')
-
-
 
         return super().get_context_data(
             form=form,
             object_list=queryset,
             summary_per_category=summary_per_category(queryset),
             summary_per_year_month=summary_per_year_month(queryset),
+            total_amount=total_amount(),
             **kwargs)
