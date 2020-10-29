@@ -34,10 +34,8 @@ class ExpenseListView(ListView):
                 queryset = queryset.order_by('date', '-pk')
             if grouping == 'category_ascending':
                 queryset = queryset.order_by('category__name', 'category__pk')
-                print(queryset)
             if grouping == 'category_descending':
-                queryset = queryset.order_by('category', '-category__pk')
-                print(queryset)
+                queryset = queryset.order_by('-category__name', 'category__pk')
 
             sort_by_date = form.cleaned_data['sort_by_date']
             if sort_by_date == '1':

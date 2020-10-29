@@ -40,6 +40,76 @@
       </tr>
       {% empty %}
       <tr>
+        <td colspan="4">no items</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  {% elif form.cleaned_data.grouping == "category_ascending" %}
+    <thead>
+      <tr>
+        <th>no.</th>
+        <th>description</th>
+        <th>amount</th>
+        <th>date</th>
+        <th>actions</th>
+
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for obj in object_list %}
+      {% ifchanged obj.category %}
+      <tr>
+        <td colspan="4">{{obj.category}}</td>
+      </tr>
+      {% endifchanged %}
+      <tr>
+        <td>{{ page_obj.start_index|add:forloop.counter0 }}.</td>
+        <td>{{ obj.name|default:"-" }}</td>
+        <td>{{ obj.amount|floatformat:2 }}</td>
+        <td>{{ obj.date}}</td>
+        <td>
+          <a href="{% url 'expenses:expense-edit' obj.id %}">edit</a>
+          <a href="{% url 'expenses:expense-delete' obj.id %}">delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">no items</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  {% elif form.cleaned_data.grouping == "category_descending" %}
+    <thead>
+      <tr>
+        <th>no.</th>
+        <th>description</th>
+        <th>amount</th>
+        <th>date</th>
+        <th>actions</th>
+
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for obj in object_list %}
+      {% ifchanged obj.category %}
+      <tr>
+        <td colspan="4">{{obj.category}}</td>
+      </tr>
+      {% endifchanged %}
+      <tr>
+        <td>{{ page_obj.start_index|add:forloop.counter0 }}.</td>
+        <td>{{ obj.name|default:"-" }}</td>
+        <td>{{ obj.amount|floatformat:2 }}</td>
+        <td>{{ obj.date}}</td>
+        <td>
+          <a href="{% url 'expenses:expense-edit' obj.id %}">edit</a>
+          <a href="{% url 'expenses:expense-delete' obj.id %}">delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
         <td colspan="5">no items</td>
       </tr>
     {% endfor %}
