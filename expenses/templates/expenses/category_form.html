@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="{% url 'expenses:category-create' %}">Create category</a>
+<hr>
+
+{% for category, count in count_category.items %}
+   {{category}} <small><a href="{% url 'expenses:category-edit' pk=category.pk %}">Edit</a></small>  - {{ count }} records  <br/>
+
+{% endfor %}
+
+{% endblock %}

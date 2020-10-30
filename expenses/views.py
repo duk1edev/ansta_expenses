@@ -1,5 +1,10 @@
+from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-
+from django.views.generic.edit import CreateView, UpdateView
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
 from .reports import summary_per_category, summary_per_year_month, total_amount
@@ -46,7 +51,6 @@ class ExpenseListView(ListView):
             if sort_by_date == '2':
                 queryset = Expense.objects.order_by('-date')
 
-            # TODO: ADD sorting by name of category
             sort_by_category = form.cleaned_data['sort_by_category']
             if sort_by_category == '1':
                 queryset = Expense.objects.order_by('category__name')
@@ -65,7 +69,8 @@ class ExpenseListView(ListView):
 class CategoryView(ListView):
     model = Category
     context_object_name = 'categories'
-    template_name = 'expenses/category_view.html'
+    template_name = 'expenses/category_form.html'
+    # success_url = reverse_lazy('expenses:category-list')
 
     def count_category_items(self):
         expenses = Expense.objects.all().order_by('category__name')
@@ -79,3 +84,26 @@ class CategoryView(ListView):
         context = super(CategoryView, self).get_context_data(**kwargs)
         context['count_category'] = self.count_category_items()
         return context
+
+
+class CreateCategory(CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'expenses/category_create_form.html'
+    success_url = reverse_lazy('expenses:category-list')
+
+
+class UpdateCategory(UpdateView):
+    model = Category
+    fields = '__all__'
+    template_name = 'expenses/category_update_form.html'
+    success_url = reverse_lazy('expenses:category-list')
+
+    def form_valid(self, form):
+        if Category.objects.filter(name=form.cleaned_data.get('name')).exists():
+            messages.error(self.request, "Category with this Name already exists.")
+            return redirect(reverse_lazy('expenses:category-edit', kwargs={'pk': self.kwargs['pk']}))
+        else:
+            super().form_valid(form)
+            return HttpResponseRedirect(self.get_success_url())
+

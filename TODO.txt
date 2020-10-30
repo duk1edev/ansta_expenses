@@ -14,14 +14,14 @@
 
   + 1. Allow searching by date range in `expenses.ExpenseList`.
   + 2. Allow searching by multiple categories in `expenses.ExpenseList`.
-   3. In `expenses.ExpenseList` add sorting by category and date (ascending and descending)
-   4. In `expenses.ExpenseList` add grouping by category name (ascending and descending)
-   5. In `expenses.ExpenseList` add total amount spent.
+  + 3. In `expenses.ExpenseList` add sorting by category and date (ascending and descending)
+  + 4. In `expenses.ExpenseList` add grouping by category name (ascending and descending)
+  + 5. In `expenses.ExpenseList` add total amount spent.
 
-   6. Add list view for `expenses.Category`. 
-   7. Add number of expenses per category per row in `expenses.CategoryList`.
+  + 6. Add list view for `expenses.Category`.
+  + 7. Add number of expenses per category per row in `expenses.CategoryList`.
 
-   8. Add create view for `expenses.Category`. 
+  + 8. Add create view for `expenses.Category`.
    9. Add update view for `expenses.Category`.
    10. Add message for create/update in `expenses.Category` if name already exists
 
