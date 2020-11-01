@@ -1,15 +1,16 @@
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
 from .reports import summary_per_category, summary_per_year_month, total_amount
 from collections import Counter
-
+from django.db.models import Sum
 
 class ExpenseListView(ListView):
     model = Expense
@@ -70,19 +71,10 @@ class CategoryView(ListView):
     model = Category
     context_object_name = 'categories'
     template_name = 'expenses/category_form.html'
-    # success_url = reverse_lazy('expenses:category-list')
-
-    def count_category_items(self):
-        expenses = Expense.objects.all().order_by('category__name')
-        category_names = []
-        for expense in list(expenses):
-            category_names.append(expense.category)
-        count_category = Counter(category_names)
-        return dict(count_category)
 
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)
-        context['count_category'] = self.count_category_items()
+        context['count_category'] = Category.objects.annotate(Count('expense')).values('id', 'name', 'expense__count')
         return context
 
 
@@ -106,4 +98,15 @@ class UpdateCategory(UpdateView):
         else:
             super().form_valid(form)
             return HttpResponseRedirect(self.get_success_url())
+
+
+class DeleteCategory(DeleteView):
+    model = Category
+    success_url = reverse_lazy('category-list')
+    context_object_name = 'category'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sum'] = Expense.objects.all().filter(category__pk=self.kwargs.get('pk')).aggregate(Sum('amount'))
+        return context
 

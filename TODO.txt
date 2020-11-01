@@ -22,10 +22,10 @@
   + 7. Add number of expenses per category per row in `expenses.CategoryList`.
 
   + 8. Add create view for `expenses.Category`.
-   9. Add update view for `expenses.Category`.
-   10. Add message for create/update in `expenses.Category` if name already exists
+  + 9. Add update view for `expenses.Category`.
+  + 10. Add message for create/update in `expenses.Category` if name already exists
 
-   11. Add delete view for `expenses.Category`. 
+  + 11. Add delete view for `expenses.Category`.
    12. In `expenses.CategoryDelete` add total count of expenses that will be deleted.
 
    13. Add detail view for `expenses.Category` with total summary per year-month.

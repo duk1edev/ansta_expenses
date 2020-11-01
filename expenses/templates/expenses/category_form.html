@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<input type="button" onclick="history.back();" value="<<---">
 <a href="{% url 'expenses:category-create' %}">Create category</a>
 <hr>
 
-{% for category, count in count_category.items %}
-   {{category}} <small><a href="{% url 'expenses:category-edit' pk=category.pk %}">Edit</a></small>  - {{ count }} records  <br/>
+{% for category in count_category %}
+{{ category.id }} {{ category.name }}<small></small>  -    {{ category.expense__count }} records <a href="{% url 'expenses:category-edit' pk=category.id %}">Edit</a>
+<a href="{% url 'expenses:category-delete' category.id %}">delete</a>
+
+<br/>
 
 {% endfor %}
 
