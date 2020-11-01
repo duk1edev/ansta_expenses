@@ -6,7 +6,7 @@
 
 <form method="post">{% csrf_token %}
     <p>Are you sure you want to delete "{{ category.name }}"?</p>
-    <p>You will delete '{{ sum.amount__sum|floatformat}}' total amounts!</p>
+    <p>You will delete '{{ sum|floatformat }}' total amounts!</p>
     <input type="submit" value="Confirm">
     <input type="button" onclick="history.back();" value="Back">
 </form>

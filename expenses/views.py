@@ -8,7 +8,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
-from .reports import summary_per_category, summary_per_year_month, total_amount
+from .reports import summary_per_category, summary_per_year_month, total_amount, total_amount_delete
 from collections import Counter
 from django.db.models import Sum
 
@@ -107,6 +107,6 @@ class DeleteCategory(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sum'] = Expense.objects.all().filter(category__pk=self.kwargs.get('pk')).aggregate(Sum('amount'))
+        context['sum'] = total_amount_delete(self.kwargs.get('pk'))
         return context
 

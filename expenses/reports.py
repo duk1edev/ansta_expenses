@@ -33,3 +33,12 @@ def summary_per_year_month(queryset):
 def total_amount():
     all_amount = Expense.objects.aggregate(s=Sum('amount'))
     return float(all_amount['s'])
+
+
+def total_amount_delete(pk):
+    amount_by_category = Expense.objects.all().filter(category__pk=pk).aggregate(sum=Sum('amount'))
+    if amount_by_category['sum'] is None:
+        return 0
+    else:
+        return amount_by_category['sum']
+
