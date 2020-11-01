@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>Category name: {{ object.name }}</h3>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Amount</th>
+    </tr>
+{% for expense in all_expenses %}
+    <tr>
+        <td>{{ expense.name }}</td>
+        <td>{{ expense.date }}</td>
+        <td>{{ expense.amount }}</td>
+    </tr>
+{% endfor %}
+</table>
+<hr>
+<table border="1">
+  <caption>Summary per year/month</caption>
+  <tr>
+    {% for year_month, total in summary_per_year_month.items %}<td>{{year_month|date:"Y-m"}}: {{total|floatformat:2}}</td>{% endfor %}
+  </tr>
+</table>
+{% endblock %}

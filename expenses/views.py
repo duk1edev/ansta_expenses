@@ -1,16 +1,15 @@
 from django.contrib import messages
-from django.core.exceptions import ValidationError
 from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.detail import DetailView
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
 from .reports import summary_per_category, summary_per_year_month, total_amount, total_amount_delete
-from collections import Counter
-from django.db.models import Sum
+
 
 class ExpenseListView(ListView):
     model = Expense
@@ -110,3 +109,12 @@ class DeleteCategory(DeleteView):
         context['sum'] = total_amount_delete(self.kwargs.get('pk'))
         return context
 
+class CategoryDetailView(DetailView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = Expense.objects.all().filter(category__pk=self.kwargs.get('pk'))
+        context['all_expenses'] = queryset
+        context['summary_per_year_month'] = summary_per_year_month(queryset)
+        return context

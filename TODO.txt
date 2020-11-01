@@ -28,7 +28,7 @@
   + 11. Add delete view for `expenses.Category`.
   + 12. In `expenses.CategoryDelete` add total count of expenses that will be deleted.
 
-   13. Add detail view for `expenses.Category` with total summary per year-month.
+  + 13. Add detail view for `expenses.Category` with total summary per year-month.
 
    14. Add option to change perPage items on list views.
    15. Add total items to `_pagination.html`
