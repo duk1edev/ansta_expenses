@@ -5,11 +5,18 @@
 <a href="{% url 'expenses:expense-create' %}">add</a>
 <a href="{% url 'expenses:category-list' %}">view categories</a>
 
-<form method="get" action="">
+<form method="GET" action="">
   {{form.as_p}}
   <button type="submit">search</button>
 </form>
 <br>
+
+<form action="" method="get">
+        <span>Show</span>
+        <input type="text" value="{{page_obj.paginator.per_page}}" name="per_page" style="width:30px"> items
+        <input type="submit" Value="Go">
+</form>
+
 <table border="1">
   {% if form.cleaned_data.grouping == "date" %}
     <thead>
@@ -166,6 +173,5 @@
     {% for year_month, total in summary_per_year_month.items %}<td>{{year_month|date:"Y-m"}}: {{total|floatformat:2}}</td>{% endfor %}
   </tr>
 </table>
-
 
 {% endblock %}

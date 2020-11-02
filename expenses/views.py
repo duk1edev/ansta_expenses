@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -28,7 +29,7 @@ class ExpenseListView(ListView):
             category = form.cleaned_data['category']
             if category:
                 queryset = queryset.filter(category__id__in=category.all())
-                if queryset.count() > 5:
+                if queryset.count() > self.paginate_by:
                     self.paginate_by = queryset.count()
 
             # search by date
@@ -56,6 +57,10 @@ class ExpenseListView(ListView):
                 queryset = Expense.objects.order_by('category__name')
             if sort_by_category == '2':
                 queryset = Expense.objects.order_by('-category__name')
+
+            # pagination
+            self.paginate_by = self.request.GET.get('per_page', self.paginate_by) or 4
+            type(self.paginate_by)
 
         return super().get_context_data(
             form=form,
