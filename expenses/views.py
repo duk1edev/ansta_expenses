@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -59,8 +58,8 @@ class ExpenseListView(ListView):
                 queryset = Expense.objects.order_by('-category__name')
 
             # pagination
-            self.paginate_by = self.request.GET.get('per_page', self.paginate_by) or 4
-            type(self.paginate_by)
+            self.paginate_by = self.request.GET.get('perPage')
+
 
         return super().get_context_data(
             form=form,
@@ -69,6 +68,15 @@ class ExpenseListView(ListView):
             summary_per_year_month=summary_per_year_month(queryset),
             total_amount=total_amount(),
             **kwargs)
+
+        # context = super().get_context_data(**kwargs)
+        # context['form'] = form
+        # context['object_list'] = queryset
+        # context['object_list'] = queryset
+        # context['summary_per_category'] = summary_per_category(queryset)
+        # context['summary_per_year_month'] = summary_per_year_month(queryset)
+        # context['total_amount'] = total_amount()
+        # return context
 
 
 class CategoryView(ListView):
@@ -113,6 +121,7 @@ class DeleteCategory(DeleteView):
         context = super().get_context_data(**kwargs)
         context['sum'] = total_amount_delete(self.kwargs.get('pk'))
         return context
+
 
 class CategoryDetailView(DetailView):
     model = Category

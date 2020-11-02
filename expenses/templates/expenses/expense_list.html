@@ -7,13 +7,13 @@
 
 <form method="GET" action="">
   {{form.as_p}}
-  <button type="submit">search</button>
+  <button type="submit">search/sort</button>
 </form>
 <br>
 
 <form action="" method="get">
         <span>Show</span>
-        <input type="text" value="{{page_obj.paginator.per_page}}" name="per_page" style="width:30px"> items
+        <input type="text" value="{{page_obj.paginator.per_page}} " name="perPage" style="width:30px"> items on page
         <input type="submit" Value="Go">
 </form>
 
